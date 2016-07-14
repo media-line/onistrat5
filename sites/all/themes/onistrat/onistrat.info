@@ -1,0 +1,40 @@
+
+name = onistrat
+description = A flexible, recolorable theme with many regions.
+package = Core
+version = VERSION
+core = 7.x
+
+stylesheets[all][] = css/bootstrap.min.css
+stylesheets[all][] = css/animate.css
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/custom.css
+
+scripts[] = js/bootstrap.min.js
+scripts[] = js/wow.min.js
+scripts[] = js/script.js
+
+regions[topline] = Topline
+regions[header] = Header
+regions[lang] = Lang switcher
+regions[top_a] = Page top-a
+regions[top_b] = Page top-b
+regions[highlighted] = Highlighted
+
+regions[content] = Content
+regions[sidebar_first] = Sidebar first
+regions[sidebar_second] = Sidebar second
+
+regions[bottom_a] = Page bottom-a
+regions[bottom_b] = Page bottom-b
+
+regions[footer] = Footer
+
+settings[shortcut_module_link] = 0
+
+
+; Information added by Drupal.org packaging script on 2016-06-15
+version = "7.44"
+project = "drupal"
+datestamp = "1466022211"
+
