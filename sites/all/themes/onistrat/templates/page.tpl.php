@@ -88,6 +88,14 @@
 <?php
     global $user; 
 ?>
+<?php if ($messages): ?>
+    <?php  if (in_array('administrator', array_values($user->roles))) {?>
+        <div id="messages"><div class="section clearfix">
+            <?php print $messages; ?>
+        </div></div> <!-- /.section, /#messages -->
+    <?php } ?>
+<?php endif; ?>
+
 <div id="page-wrapper" class="page-wrapper">
     <div id="page" class="page">
 
@@ -195,14 +203,6 @@
         </section>
     <?php } ?>
     
-    <?php if ($messages): ?>
-        <?php  if (in_array('administrator', array_values($user->roles))) {?>
-            <div id="messages"><div class="section clearfix">
-                <?php print $messages; ?>
-            </div></div> <!-- /.section, /#messages -->
-        <?php } ?>
-    <?php endif; ?>
-
     <div id="main-wrapper" class="clearfix">
         <div id="main" class="clearfix">
 

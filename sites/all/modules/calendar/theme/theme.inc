@@ -544,7 +544,6 @@ function template_preprocess_calendar_item(&$vars) {
       }
     }
   }
-  dsm($vars['item']);
 }
 
 /**
@@ -758,7 +757,6 @@ function theme_calendar_stripe_stripe($vars) {
 function theme_calendar_empty_day($vars) {
   $curday = $vars['curday'];
   $view = $vars['view'];
-
   if ($view->date_info->calendar_type != 'day') {
     return '<div class="calendar-empty">&nbsp;</div>' . "\n";
   }

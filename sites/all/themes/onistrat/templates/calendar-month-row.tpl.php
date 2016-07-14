@@ -5,14 +5,11 @@
  * 
  * - $inner: The rendered string of the row's contents.
  */
-$attrs = ($class) ? 'class="' . $class . '"': '';
-$attrs .= ($iehint > 0) ? ' iehint="' . $iehint . '"' : '';
 ?>
 
-<?php if ($attrs != ''):?>
-<!--<div <?php print $attrs?>>-->
-<?php else:?>
-<!--<div>
-<?php endif;?>
-  <?php print $inner ?>
-<!--</div>-->
+
+<?php if (trim($inner) != ''){ ?>
+    <div class="uk-calendar-row">
+        <?php print $inner; ?>
+    </div>
+<?php } ?>

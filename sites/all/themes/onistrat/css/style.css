@@ -1061,11 +1061,123 @@ ul.pager > li.pager-last{
 .uk-subscrible{
     background: #f3f3f4;
 }
+.uk-calendar{
+    background: #000;
+    padding: 20px 0 85px;
+}
+.uk-event-exsist{
+    cursor: pointer;
+}
 .uk-calendar-coll{
     width: 14.2%;
     float: left;
-    border: 1px solid #000;
-    height: 80px;
+    color: #fff;
+    height: 179px;
+    overflow: hidden;
+    padding: 25px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+.uk-calendar-header{
+    height: 100px;
+    text-align: center;
+    color: #747474;
+    font-size: 18px;
+    line-height: 1;
+    text-transform: uppercase;
+    padding-top: 10px;
+}
+.uk-calendar-row:nth-child(odd) .uk-calendar-coll:nth-child(odd){
+    background: #3d3d3d;
+}
+.uk-calendar-row:nth-child(odd) .uk-calendar-coll:nth-child(even){
+    background: #1f1f1f;
+}
+.uk-calendar-row:nth-child(even) .uk-calendar-coll:nth-child(odd){
+    background: #4d4d4d;
+}
+.uk-calendar-row:nth-child(even) .uk-calendar-coll:nth-child(even){
+    background: #2e2e2e;
+}
+.uk-calendar-coll:not(.uk-calendar-header):hover{
+    color: #000 !important;
+    transition: all 0.2s ease;
+}
+.uk-calendar-coll-header{
+    text-align: right;
+    position: relative;
+    z-index: 3;
+}
+.uk-event-yellow-overlay{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #ffd91e;
+    opacity: 0;
+    z-index: 2;
+    transition: all 0.2s ease;
+}
+.uk-calendar-coll:hover .uk-event-yellow-overlay{
+    opacity: 1;
+    transition: all 0.2s ease;
+}
+.uk-calendar-day{
+    font-size: 30px;
+    line-height: 1;
+    float: right;
+    font-weight: bold;
+}
+.uk-paid-event{
+    width: 28px;
+    margin-top: 3px;
+    padding: 0 0 2px;
+    text-align: center;
+    font-size: 22px;
+    line-height: 22px;
+    border: 2px solid#fff;
+    float: left;
+    border-radius: 100%;
+    color: #fff;
+    transition: all 0.2s ease;
+}
+.uk-calendar-coll:hover .uk-paid-event{
+    border-color: #000;
+    color: #000;
+    transition: all 0.2s ease;
+}
+.uk-event-image{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.uk-event-image:after{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.55);
+    transition: all 0.2s ease;
+}
+.uk-event-title{
+    position: relative;
+    z-index: 3;
+    margin-top: 35px;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    max-height: 80px;
     overflow: hidden;
 }
 /* ========================================================================

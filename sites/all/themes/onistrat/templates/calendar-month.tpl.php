@@ -19,25 +19,65 @@
  */
 //dsm('Display: '. $display_type .': '. $min_date_formatted .' to '. $max_date_formatted);
 ?>
-<?php //dpr($test); 
+<?php 
+    //Получение текущих значений даты
+    $currenDate = split(',', date('d,m,Y'));
+    $currenDay = $currenDate[0];
+    $currenMonth = $currenDate[1];
+    $currenYear = $currenDate[2];
+    
+    //Получение текущих значений url
+    $requestUrl = base_path().request_path();
+    //$queryParams = drupal_get_query_parameters();
+    $currentUrl = $requestUrl.'?mini=' . $currenYear . '-' . $currenMonth;
+    
+    //составление списка месяцев
+    $monthArray = array(
+        '01'  => t('January'),
+        '02'  => t('February'),
+        '03'  => t('March'),
+        '04'  => t('April'),
+        '05'  => t('May'),
+        '06'  => t('June'),
+        '07'  => t('July'),
+        '08'  => t('August'),
+        '09'  => t('September'),
+        '10' => t('October'),
+        '11' => t('November'),
+        '12' => t('December')
+    );
 ?>
-<div class="calendar-calendar"><div class="month-view">
-<div class="full container">
-    <div class="row">
-      <?php foreach ($day_names as $id => $cell): ?>
-        <div class="uk-calendar-coll <?php print $cell['class']; ?>" id="<?php print $cell['header_id'] ?>">
-          <?php print $cell['data']; ?>
+    <ul class="pager uk-calendar-pager">
+        <?php foreach ($monthArray as $k=>$month) {?>
+            <li class="">
+                <a href="<?php echo $requestUrl.'?mini=' . $currenYear . '-' . $k; ?>"><?php echo $month;?></a>    
+            </li>
+        <?php } ?>
+        
+        <li class="">
+            <a href="/blizhayshie-meropriyatiya?mini=2016-08" title="Navigate to next month" rel="nofollow">Next »</a>
+        </li>
+    </ul>
+        
+<div class="calendar-calendar uk-calendar">
+    <div class="month-view">
+        <div class="container">
+            <div class="row">
+              <?php foreach ($day_names as $id => $cell): ?>
+                <div class="uk-calendar-coll uk-calendar-header <?php print $cell['class']; ?>" id="<?php print $cell['header_id'] ?>">
+                  <?php print $cell['data']; ?>.
+                </div>
+              <?php endforeach; ?>
+            </div>
+            <div class="row">
+                <?php 
+                    foreach ((array) $rows as $row) {
+                        print $row['data'];
+                    } ?>
+            </div>
         </div>
-      <?php endforeach; ?>
-    </div>
-    <div class="row">
-        <?php 
-            foreach ((array) $rows as $row) {
-                print $row['data'];
-            } ?>
     </div>
 </div>
-</div></div>
 <script>
 /*
 try {
