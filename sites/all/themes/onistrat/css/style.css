@@ -26,6 +26,12 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.icon-right-arrow:before {
+    content: "\e907";
+}
+.icon-left-arrow2:before {
+    content: "\e908";
+}
 .icon-facebook-logo:before {
     content: "\e900";
 }
@@ -866,7 +872,7 @@ div.uk-main-category-block:hover .uk-main-category-content{
     right: 0;
     top: 0;
     bottom: 0;
-    width: 170px;
+    width: 160px;
     background: rgba(0, 0, 0, 0);
 }
 .uk-to-top:hover{
@@ -1063,10 +1069,116 @@ ul.pager > li.pager-last{
 }
 .uk-calendar{
     background: #000;
-    padding: 20px 0 85px;
+    padding: 60px 0 85px;
 }
-.uk-event-exsist{
-    cursor: pointer;
+.uk-calendar-pager-container{
+    position:relative;
+}
+ul.uk-calendar-pager{
+    margin-bottom: 50px;
+    list-style: none;
+    padding: 0 80px;
+}
+ul.uk-calendar-pager li{
+    width: auto;
+    line-height: 26px;
+    display: inline-block;
+    background: transparent;
+    width: 11%;
+    text-align: center;
+} 
+ul.uk-calendar-pager li > *{
+   /* display: none;*/
+} 
+ul.uk-calendar-pager li a{
+    border: none;
+    color: #747474;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: transparent;
+    padding: 0 15px;
+    display: inline-block;
+}
+ul.uk-calendar-pager li a:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 15;
+}
+ul.uk-calendar-pager li a:after {
+    left: 15px;
+    right: 15px;
+    border-color: #747474;
+}
+ul.uk-calendar-pager li a:hover{
+    background: transparent;
+    z-index: 15;
+}
+.uk-calendar-month-year{
+    display: none;
+}
+ul.uk-calendar-pager li.uk-month-active{
+    width: 31%;
+}
+ul.uk-calendar-pager li.uk-month-active a{
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: normal;
+    background: transparent;
+    padding: 0;
+}
+ul.uk-calendar-pager li.uk-month-active a:after{
+    border: none;
+}
+ul.uk-calendar-pager li.uk-month-active a .uk-calendar-month-year{
+    display: inline;
+}
+.uk-calendar-prev,
+.uk-calendar-next{
+    border: 2px solid #fff;
+    position: absolute;
+    top: 0;
+    padding: 9px;
+    color: #fff;
+    font-size: 28px;
+}
+.uk-calendar-prev{
+    left: 0;
+}
+.uk-calendar-next{
+    right: 0;
+}
+.uk-calendar-prev:hover,
+.uk-calendar-next:hover{
+    background: #fff;
+    color: #000;
+}
+a.uk-calendar-prev:after,
+a.uk-calendar-next:after{
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 135px;
+    z-index: 10;
+}
+.uk-calendar-prev:after{
+    left: 48px;
+    background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,1) 35%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to right,  rgba(0,0,0,1) 0%,rgba(0,0,0,1) 35%,rgba(0,0,0,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=1 );
+}
+.uk-calendar-next:after{
+    right: 48px;
+    background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,1) 65%, rgba(0,0,0,1) 100%);
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 65%,rgba(0,0,0,1) 100%);
+    background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 65%,rgba(0,0,0,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=1 );
 }
 .uk-calendar-coll{
     width: 14.2%;
@@ -1077,6 +1189,9 @@ ul.pager > li.pager-last{
     padding: 25px;
     position: relative;
     transition: all 0.2s ease;
+}
+.uk-event-exsist{
+    cursor: pointer;
 }
 .uk-calendar-header{
     height: 100px;
@@ -1136,10 +1251,10 @@ ul.pager > li.pager-last{
     text-align: center;
     font-size: 22px;
     line-height: 22px;
-    border: 2px solid#fff;
+    border: 2px solid #ffd91e;
     float: left;
     border-radius: 100%;
-    color: #fff;
+    color: #ffd91e;
     transition: all 0.2s ease;
 }
 .uk-calendar-coll:hover .uk-paid-event{

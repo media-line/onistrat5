@@ -20,46 +20,161 @@
 //dsm('Display: '. $display_type .': '. $min_date_formatted .' to '. $max_date_formatted);
 ?>
 <?php 
+    //количество месяцев в году
+    define('NUM_OF_MONTH', 12);
+    //количество выводимых месяцев от центрального, формула 3+1+3 итого 9 месяцев
+    define('NUM_OF_CENTER', 3);
+    
     //Получение текущих значений даты
-    $currenDate = split(',', date('d,m,Y'));
-    $currenDay = $currenDate[0];
-    $currenMonth = $currenDate[1];
-    $currenYear = $currenDate[2];
+    $currentDate = explode(',', date('d,m,Y'));
+    $currenDay = $currentDate[0];
+    $currentMonth = $currentDate[1];
+    $currentYear = $currentDate[2];
     
     //Получение текущих значений url
     $requestUrl = base_path().request_path();
     //$queryParams = drupal_get_query_parameters();
-    $currentUrl = $requestUrl.'?mini=' . $currenYear . '-' . $currenMonth;
+    $currentUrl = $requestUrl.'?mini=' . $currentYear . '-' . $currentMonth;
+    $currentCalendarPage = $currentYear . '-' . $currentMonth;
+    $queryParams = drupal_get_query_parameters();
+    if(isset($queryParams['mini'])){
+        $calendarPage = $queryParams['mini'];
+        $calendarDate = explode('-', $queryParams['mini']);
+        $calendarYear = intval($calendarDate[0]);
+        $calendarMonth = intval($calendarDate[1]);
+    } else {
+        $calendarPage = $currentCalendarPage;
+        $calendarYear = intval($currentYear);
+        $calendarMonth = intval($currentMonth);
+    }
     
-    //составление списка месяцев
+    //составление списка месяцев на прошлый, текущий и следующий года
     $monthArray = array(
-        '01'  => t('January'),
-        '02'  => t('February'),
-        '03'  => t('March'),
-        '04'  => t('April'),
-        '05'  => t('May'),
-        '06'  => t('June'),
-        '07'  => t('July'),
-        '08'  => t('August'),
-        '09'  => t('September'),
-        '10' => t('October'),
-        '11' => t('November'),
-        '12' => t('December')
+        1 => array(
+            'number' => '01', 
+            'name' => t('January')
+        ),
+        2 => array(
+            'number' => '02', 
+            'name' => t('February')
+        ),
+        3 => array(
+            'number' => '03', 
+            'name' => t('March')
+        ),
+        4 => array(
+            'number' => '04', 
+            'name' => t('April')
+        ),
+        5 => array(
+            'number' => '05', 
+            'name' => t('May')
+        ),
+        6 => array(
+            'number' => '06', 
+            'name' => t('June')
+        ),
+        7 => array(
+            'number' => '07', 
+            'name' => t('July')
+        ),
+        8 => array(
+            'number' => '08', 
+            'name' => t('August')
+        ),
+        9 => array(
+            'number' => '09', 
+            'name' => t('September')
+        ),
+        10 => array(
+            'number' => '10', 
+            'name' => t('October')
+        ),
+        11 => array(
+            'number' => '11', 
+            'name' => t('November')
+        ),
+        12 => array(
+            'number' => '12', 
+            'name' => t('December')
+        )
     );
+    //Получаем начало и конец относительно выбраного месяца
+    $startNumber = $calendarMonth - NUM_OF_CENTER;
+    $endNumber = $calendarMonth + NUM_OF_CENTER;
+    
+    //проверка на выход за пределы массива в начале или вконце
+    $offsetStart = NUM_OF_MONTH - NUM_OF_CENTER;
+    $offsetEnd = NUM_OF_CENTER;
+    $offset = NUM_OF_MONTH - $calendarMonth;
+    $offsetStartFlag = false;
+    $offsetEndFlag = false;
+    
+    //если выход за пределы массива в начале
+    if($offset >= $offsetStart){
+        $offsetStartFlag = true;
+        $offsetStartMonths = NUM_OF_MONTH + ($calendarMonth - NUM_OF_CENTER);
+        /*for($i = $offsetStartMonths; $i <= NUM_OF_MONTH; $i++){
+            dpr($monthArray[$i]['name']);
+        } */
+    } 
+    
+    //если выход за пределы массива в вконце
+    if($offset <= $offsetEnd){
+        $offsetEndFlag = true;
+        $offsetEndMonths = ($calendarMonth + NUM_OF_CENTER) - NUM_OF_MONTH;
+        /*for($i = 1; $i <= $offsetEndMonths; $i++){
+            dpr($monthArray[$i]['name']);
+        } */
+    }
+    //Формирование ссылок вперед и назад
+    if ($calendarMonth == NUM_OF_MONTH){
+        $nextLink = $requestUrl.'?mini=' . ($calendarYear + 1) . '-01';
+        $prevLink = $requestUrl.'?mini=' . ($calendarYear) . '-'.$monthArray[$calendarMonth-1]['number'];
+    } else if ($calendarMonth == 1){
+        $prevLink = $requestUrl.'?mini=' . ($calendarYear - 1) . '-12';
+        $nextLink = $requestUrl.'?mini=' . ($calendarYear) . '-'.$monthArray[$calendarMonth+1]['number'];
+    } else{
+        $prevLink = $requestUrl.'?mini=' . ($calendarYear) . '-'.$monthArray[$calendarMonth-1]['number'];
+        $nextLink = $requestUrl.'?mini=' . ($calendarYear) . '-'.$monthArray[$calendarMonth+1]['number'];
+    }
 ?>
-    <ul class="pager uk-calendar-pager">
-        <?php foreach ($monthArray as $k=>$month) {?>
-            <li class="">
-                <a href="<?php echo $requestUrl.'?mini=' . $currenYear . '-' . $k; ?>"><?php echo $month;?></a>    
-            </li>
-        <?php } ?>
-        
-        <li class="">
-            <a href="/blizhayshie-meropriyatiya?mini=2016-08" title="Navigate to next month" rel="nofollow">Next »</a>
-        </li>
-    </ul>
-        
 <div class="calendar-calendar uk-calendar">
+    <div class="container uk-calendar-pager-container">
+        <a class="uk-calendar-prev uk-bordered-remove icon-left-arrow2" href="<?php echo $prevLink;?>"></a>
+        
+        <a class="uk-calendar-next uk-bordered-remove icon-right-arrow" href="<?php echo $nextLink;?>"></a>
+        
+        <ul class="uk-calendar-pager">
+            
+            <?php if($offsetStartFlag){?>
+                <?php for($i = $offsetStartMonths; $i <= NUM_OF_MONTH; $i++){ ?>
+                    <li>
+                        <a class="uk-calendar-month" href="<?php echo $requestUrl.'?mini=' . ($calendarYear - 1) . '-' . $monthArray[$i]['number']; ?>"><?php echo $monthArray[$i]['name'];?> <span class="uk-calendar-month-year"><?php echo $calendarYear - 1;?></span></a>    
+                    </li>
+                <?php } ?>
+            <?php } ?>
+            <?php for ($i = $startNumber; $i <= $endNumber; $i++){ ?>
+                <?php if (($i > 0) && ($i <= NUM_OF_MONTH)){
+                        if ($calendarPage == $calendarYear . '-' . $monthArray[$i]['number']){
+                            $monthClass = ' class="uk-month-active"';
+                        } else $monthClass = '';
+                ?>
+                    <li<?php echo $monthClass; ?>>
+                        <a class="uk-calendar-month" href="<?php echo $requestUrl.'?mini=' . $calendarYear . '-' . $monthArray[$i]['number']; ?>"><?php echo $monthArray[$i]['name'];?> <span class="uk-calendar-month-year"><?php echo $calendarYear;?></span></a>    
+                    </li>
+                <?php } ?>
+            <?php } ?>
+            <?php if($offsetEndFlag){?>
+                <?php for($i = 1; $i <= $offsetEndMonths; $i++){ ?>
+                    <li>
+                        <a class="uk-calendar-month" href="<?php echo $requestUrl.'?mini=' . ($calendarYear + 1) . '-' . $monthArray[$i]['number']; ?>"><?php echo $monthArray[$i]['name'];?> <span class="uk-calendar-month-year"><?php echo $calendarYear + 1;?></span></a>    
+                    </li>
+                <?php } ?>
+            <?php } ?>
+            
+        </ul>
+    </div>
     <div class="month-view">
         <div class="container">
             <div class="row">
@@ -78,21 +193,3 @@
         </div>
     </div>
 </div>
-<script>
-/*
-try {
-  // ie hack to make the single day row expand to available space
-  if ($.browser.msie ) {
-    var multiday_height = $('tr.multi-day')[0].clientHeight; // Height of a multi-day row
-    $('tr[iehint]').each(function(index) {
-      var iehint = this.getAttribute('iehint');
-      // Add height of the multi day rows to the single day row - seems that 80% height works best
-      var height = this.clientHeight + (multiday_height * .8 * iehint); 
-      this.style.height = height + 'px';
-    });
-  }
-}catch(e){
-  // swallow 
-}
-*/
-</script>
