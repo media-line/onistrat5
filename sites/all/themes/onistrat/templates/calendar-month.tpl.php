@@ -187,3 +187,73 @@
         </div>
     </div>
 </div>
+
+<?php 
+    
+    //Отправка почты
+    if(isset($queryParams['pay_status']) && ($queryParams['pay_status'] == 'success')){
+        $siteEmail = variable_get('site_mail', '');
+        $name = htmlspecialchars($queryParams['name']);
+        $lastName = htmlspecialchars($queryParams['last_name']);
+        $email = htmlspecialchars($queryParams['email']);
+        $subject = htmlspecialchars($queryParams['subject']);
+        $eventDate = htmlspecialchars($queryParams['date']);
+        $headers = 'From: admin <' . $siteEmail . ">\r\n";
+        $headers .= "Content-type: text/html; charset=\"utf-8\"";
+        
+        $body = 'Мерприятие - ' . $subject . '<br>';
+        $body .= 'Дата проведения - ' . $eventDate . '<br><br>';
+        $body .= '<strong> Имя: </strong>'. $name .'<br>';
+        $body .= '<strong> Фамилия: </strong>'. $lastName .'<br>';
+        $body .= '<strong> Email: </strong>'. $email .'<br>';
+            
+        if(mail($siteEmail, 'Новая заявка на мероприятие с сайта onistrat.com', $body, $headers)){}
+            
+        $userBody = 'Здравствуйте.<br>';
+        $userBody .= 'Вы зарегистрировались на мероприятие "'.$subject . '", ';
+        $userBody .= 'которое сотоится ' . trim($eventDate) . '.';
+            
+        if(mail($siteEmail, 'Вы зарегистрировались на '. $subject, $userBody, $headers)){}
+        
+        //редирект на страницу без параметров формы
+        global $base_url; 
+        
+        $removeParams = array('name','lastname'); //ненужные параметры
+        foreach($queryParams as $k => $params){
+            //dpr($params);
+        }
+        //header('Location: '.$base_url.$requestUrl);
+        
+    } else {    
+        if($_POST && ($_POST['check'] == '')){
+            $siteEmail = variable_get('site_mail', '');
+            $name = htmlspecialchars($_POST['name']);
+            $lastName = htmlspecialchars($_POST['last_name']);
+            $email = htmlspecialchars($_POST['email']);
+            $subject = htmlspecialchars($_POST['subject']);
+            $eventDate = htmlspecialchars($_POST['date']);
+            
+            $headers = 'From: admin <' . $siteEmail . ">\r\n";
+            $headers .= "Content-type: text/html; charset=\"utf-8\"";
+            
+            $body = 'Мерприятие - ' . $subject . '<br>';
+            $body = 'Дата проведения - ' . $eventDate . '<br><br>';
+            $body .= '<strong> Имя: </strong>'. $name .'<br>';
+            $body .= '<strong> Фамилия: </strong>'. $lastName .'<br>';
+            $body .= '<strong> Email: </strong>'. $email .'<br>';
+            
+            if(mail($siteEmail, 'Новая заявка на мероприятие с сайта onistrat.com', $body, $headers)){}
+            
+            $userBody = 'Здравствуйте.<br>';
+            $userBody .= 'Вы зарегистрировались на мероприятие "'.$subject . '", ';
+            $userBody .= 'которое сотоится ' . trim($eventDate) . '.';
+            
+            if(mail($siteEmail, 'Вы зарегистрировались на '. $subject, $userBody, $headers)){}
+        }
+    }
+    
+    //Добавление пользователя в базу
+   /* if($_POST &&  ($_POST['check'] == '') && ($_POST['form_action'] != '')){
+        dsm($_POST);
+    }*/
+?>

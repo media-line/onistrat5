@@ -86,12 +86,32 @@ jQuery(document).ready(function(){
 	
 	//Эффекты формы в модальном окне на странице мероприятий (events)
 	jQuery('.uk-ev-mod-content-button').click( function(){
-		jQuery(this).addClass('uk-hidden');
+		jQuery(this).addClass('uk-disable');
 		jQuery(this).closest('.uk-events-modal-content').find('.uk-event-form').slideDown(500);
 		return false; 
     });
+    
+    //Функция обработки формы платных мероприятий
+    jQuery('.uk-ev-mod-pay-button').click(function(){ 
+        var successUrl = jQuery(this).closest('.uk-event-form').find('.uk-success-url').val();
+        var failedUrl = jQuery(this).closest('.uk-event-form').find('.uk-failed-url').val();
+        var name = encodeURIComponent(jQuery(this).closest('.uk-event-form').find('.uk-name').val());
+        var lastName = encodeURIComponent(jQuery(this).closest('.uk-event-form').find('.uk-lastname').val());
+        var email = encodeURIComponent(jQuery(this).closest('.uk-event-form').find('.uk-email').val());
+        var date = encodeURIComponent(jQuery(this).closest('.uk-event-form').find('.uk-date').val());
+        var subject = encodeURIComponent(jQuery(this).closest('.uk-event-form').find('.uk-subject').val());
+        successUrl = successUrl + '&date=' + date + '&subject=' + subject + '&name=' + name + '&last_name=' + lastName + '&email=' + email;
+        failedUrl = failedUrl + '&date=' + date + '&subject=' + subject + '&name=' + name + '&last_name=' + lastName + '&email=' + email;
+        alert(successUrl);
+        
+        var successUrl = jQuery(this).closest('.uk-event-form').find('.uk-success-url').val(successUrl);
+        var failedUrl = jQuery(this).closest('.uk-event-form').find('.uk-failed-url').val(failedUrl);
+        
+        jQuery(this).closest('.uk-event-form').submit();
+        
+        return false;
+    });
 });
-
 function resizeAboutImages(){
     jQuery('.js-about-image img').each(function(){ 
         jQuery(this).load(function(){ 

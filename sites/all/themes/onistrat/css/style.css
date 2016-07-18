@@ -81,28 +81,44 @@ a:hover:after{
     transition: all 0.3s ease;
 }
 ::-webkit-input-placeholder {
-    font-size: 18px; color:#000; opacity: 1; transition: 0.2s ease
+    font-size: 18px;
+    color:#000;
+    opacity: 1;
+    transition: 0.2s ease;
 }
 ::-moz-placeholder {
-    font-size: 18px; color:#000; opacity: 1; transition: 0.2s ease
+    font-size: 18px;
+    color:#000;
+    opacity: 1;
+    transition: 0.2s ease;
 }
 :-moz-placeholder {
-    font-size: 18px; color:#000; opacity: 1; transition: 0.2s ease
+    font-size: 18px;
+    color:#000;
+    opacity: 1;
+    transition: 0.2s ease;
 }
 :-ms-input-placeholder {
-    font-size: 18px; color:#000; opacity: 1; transition: 0.2s ease
+    font-size: 18px;
+    color:#000;
+    opacity: 1;
+    transition: 0.2s ease;
 }
 :focus::-webkit-input-placeholder {
-    opacity: 0; transition: 0.2s ease
+    opacity: 0;
+    transition: 0.2s ease;
 }
 :focus::-moz-placeholder  {
-    opacity: 0; transition: 0.2s ease
+    opacity: 0;
+    transition: 0.2s ease;
 }
 :focus:-moz-placeholder {
-    opacity: 0; transition: 0.2s ease
+    opacity: 0;
+    transition: 0.2s ease;
 }
 :focus:-ms-input-placeholder {
-    opacity: 0; transition: 0.2s ease
+    opacity: 0; 
+    transition: 0.2s ease;
 }
 ::-moz-selection {
     background: #1c1a24; 
@@ -285,7 +301,7 @@ h4, h5, h6{
 }
 .modal-backdrop.in {
     filter: alpha(opacity=90);
-    opacity: .9;
+    opacity: 0.9;
 }
 /* ========================================================================
    Cтили шапки / Header styles
@@ -1087,9 +1103,18 @@ ul.pager > li.pager-last{
 .uk-subscrible{
     background: #f3f3f4;
 }
+/* ========================================================================
+   Стили страницы мероприятий / Events page styles
+========================================================================== */
 .uk-calendar{
     background: #000;
     padding: 60px 0 85px;
+}
+.uk-calendar ::-moz-selection {
+    background: #3ec52b; 
+}
+.uk-calendar ::selection { 
+    background: #3ec52b; 
 }
 .uk-calendar-pager-container{
     position:relative;
@@ -1347,7 +1372,9 @@ a.uk-calendar-next:after{
 	margin-top: 30px;
 }
 .uk-ev-mod-content-button,
-.uk-ev-mod-content-button:focus{
+.uk-ev-mod-pay-button,
+.uk-ev-mod-content-button:focus,
+.uk-ev-mod-pay-button:focus{
 	background: #3ec52b;
 	font-size: 18px;
 	line-height: 60px;
@@ -1363,14 +1390,15 @@ a.uk-calendar-next:after{
 	border: 1px solid #3ec52b;
 	opacity: 1;
 }
-.uk-ev-mod-content-button:hover{
+.uk-ev-mod-content-button:hover,
+.uk-ev-mod-pay-button:hover{
 	color: #3ec52b;
 	background: transparent;
 }
-.uk-ev-mod-content-button.uk-hidden{
-	opacity: 0;
-	visibility: hidden;
-	transition: all 0.5s ease;
+.uk-ev-mod-content-button.uk-disable{
+	color: #3ec52b;
+	background: transparent;
+    cursor: default;
 }
 .uk-ev-mod-content-price{
 	font-size: 30px;
@@ -1382,6 +1410,54 @@ a.uk-calendar-next:after{
 }
 .uk-event-form{
 	display: none;
+    margin-top: 80px;
+}
+.uk-event-form input{
+	width: 100%;
+    height: 50px;
+    background: transparent;
+    border: 1px solid #767676;
+    padding: 10px 20px;
+    color: #fff;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+.uk-event-form ::-webkit-input-placeholder {
+    color: #aaa;
+}
+.uk-event-form ::-moz-placeholder {
+    color: #aaa;
+}
+.uk-event-form :-moz-placeholder {
+    color: #aaa;
+}
+.uk-event-form :-ms-input-placeholder      {
+    color: #aaa;
+}
+.uk-ev-mod-pay-button{
+    max-width: 260px;
+    transition: all 0.2s ease;
+}
+.uk-ev-mod-pay-button:hover{
+    
+    transition: all 0.2s ease;
+}
+.uk-success-pay-message,
+.uk-failed-pay-message{
+    display: none;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-left: 25px;
+}
+.uk-success-pay-message{
+    color: #3ec52b;
+}
+.uk-failed-pay-message{
+    color: #ff7676;
 }
 /* ========================================================================
    Медиа запросы / Media querys
@@ -1409,7 +1485,7 @@ a.uk-calendar-next:after{
 	.modal-dialog {
 		width: 100%;
 		max-width: 1260px;
-		margin: 200px auto;
+		margin: 50px auto;
 	}
 @media (min-width: 992px){    
     .uk-navbar-collapse.collapse {

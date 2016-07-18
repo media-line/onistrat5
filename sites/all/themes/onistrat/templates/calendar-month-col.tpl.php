@@ -21,15 +21,18 @@
 	$currentUrlFailed = $currentUrl.'/?pay_status=failed';
 	
 	//Получение текущего месяца календаря
-	$currentDate = explode(',', date('d,m,Y'));
+	$currentDate = explode(',', date('m,Y'));
 	if(isset($queryParams['mini'])){
 		$calendarDate = explode('-', $queryParams['mini']);
-		$calendarMonth = $calendarDate[1];
+		$calendarMonth = $calendarDate[0];
+        $calendarYear = $calendarDate[1];
+        
 		//URL-ы для возврата с платежной системы (если есть параметры)
 		$currentUrlSuccess = $currentUrl.'/?mini='.$queryParams['mini'].'&pay_status=success';
 		$currentUrlFailed = $currentUrl.'/?mini='.$queryParams['mini'].'&pay_status=failed';
 	} else {
-		$calendarMonth = $currentDate[1];
+		$calendarMonth = $currentDate[0];
+        $calendarYear = $currentDate[1];
 	}
 
 	//Получение месяца для выводимого дня
@@ -79,9 +82,18 @@
         <div class="uk-event-yellow-overlay"></div>
         <?php if($monthOfTheDay == $calendarMonth){ ?>
 			<div class="uk-calendar-coll-header clearfix">
-				<?php if (intval($item['item']->rendered_fields['field_paid'])){?>
-					<div class="uk-paid-event"><?php echo '$';?></div>
-				<?php } ?>
+				<?php 
+                    if (intval($item['item']->rendered_fields['field_paid'])){
+                        $formAction = 'https://www.portmone.com.ua/gateway/';
+                ?>
+                        <div class="uk-paid-event"><?php echo '$';?></div>
+                    
+				<?php } else {
+                    
+                    $formAction = '';
+                    
+                }?>
+                
 				<div class="uk-calendar-day">
 					<?php print $dayOfMonth; ?>
 				</div>
@@ -137,33 +149,75 @@
 						</div>
 					</div>
 				</div>
-				<form class="uk-event-form" action="https://www.portmone.com.ua/gateway/" method="post"> 
+                
+				<form id="event-form-<?php echo $item['item']->id;?>" class="uk-event-form row" action="<?php echo $formAction; ?>" method="post"> 
 					
-					<input type="text" name="name" placeholder="Имя"/>
-					<input type="text" name="name" placeholder="Фамилия"/>
-					<input type="text" name="name" placeholder="Email"/>
+                    <div class="col-md-4">
+                        <input class="uk-name uk-form-control" type="text" name="name" placeholder="Имя" required/>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <input class="uk-lastname uk-form-control" type="text" name="last_name" placeholder="Фамилия" required/>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <input class="uk-email uk-form-control" type="email" name="email" placeholder="Email" required/>
+                    </div>
 					
+					<input class="uk-subject"  type="hidden" name="subject" value="<?php echo $item['item']->title; ?>"/>
+					<input class="uk-date" type="hidden" name="date" value="<?php echo $dayOfMonth . '.' . $calendarMonth . '.' . $calendarYear; ?> "/>
 					<input type="hidden" name="check"/>
-					
+                        
+                    <?php
+                        //Если мероприятие платное
+                        if (intval($item['item']->rendered_fields['field_paid'])){
+                            
+                        //Формирование номера заказы из даты
+                        $orderNumber = date('YmdhGis');
+                    ?>
+						<input type="hidden" name="form_action" value="<?php echo $formAction; ?>" />
 						<input type="hidden" name="payee_id" value="10862" />
-						<input type="hidden" name="shop_order_number" value="100" />
+						<input type="hidden" name="shop_order_number" value="<?php echo $orderNumber;?>" />
 						<input type="hidden" name="bill_amount" value="<?php echo $item['item']->rendered_fields['field_price'];?>"/>
 						<input type="hidden" name="description" value="<?php echo $item['item']->title;?>"/>
-						<input type="hidden" name="success_url" value="<?php echo $currentUrlSuccess;?>" />
-						<input type="hidden" name="failure_url" value="<?php echo $currentUrlFailed;?>" />
+						<input class="uk-success-url" type="hidden" name="success_url" value="<?php echo $currentUrlSuccess;?>" />
+						<input class="uk-failed-url" type="hidden" name="failure_url" value="<?php echo $currentUrlFailed;?>" />
 						<input type="hidden" name="encoding" value="utf-8"/>
 						<input type="hidden" name="lang" value="ru" />
-						
-					<button type="submit" class="uk-ev-mod-content-button">Оплатить</button>
+                        <div class="uk-text-center">	
+                            <button class="uk-ev-mod-pay-button uk-paid">Оплатить</button>
+                            <span class="uk-success-pay-message">
+                                Оплата произведена успешно!
+                            </span>
+                            <span class="uk-failed-pay-message">
+                                Ошибка, оплата не была произведена.
+                            </span>
+                        </div>
+                    <?php } else { ?>
+                        <div class="uk-text-center">	
+                            <button type="submit" class="uk-ev-mod-pay-button uk-free">Записаться</button>
+                        </div>
+                    <?php } ?>
 				</form>
 			</div>
 		</div>
 	</div>
+
 	<?php 
+       // echo $site_email = variable_get('site_mail', '');
+        //dsm($_POST['SHOPORDERNUMBER']);
+        
+        
 		//Открытие модального окна после возврата с платежки
 		if(isset($queryParams['modal'])){
 			echo '<script>';
-			echo 'jQuery("#event-modal-' . $queryParams['modal'] . '").modal("show")';
+			echo 'jQuery("#event-modal-' . $queryParams['modal'] . '").modal("show");';
+            //Открытие формы заказа
+            echo 'jQuery("#event-modal-' . $queryParams['modal'] . '").find(".uk-ev-mod-content-button").addClass("uk-disable");';
+            echo 'jQuery("#event-modal-' . $queryParams['modal'] . '").find(".uk-event-form").slideDown(500);';
+            //Сообщение об оплате
+            echo 'jQuery("#event-modal-' . $queryParams['modal'] . '").find(".uk-success-pay-message, .uk-failed-pay-message").hide();';
+            echo 'jQuery("#event-modal-' . $queryParams['modal'] . '").find(".uk-' . $queryParams['pay_status'] .'-pay-message").fadeIn(300);';
 			echo '</script>';
 		}
 	?>
