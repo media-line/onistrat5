@@ -8,6 +8,7 @@
  */
 ?>
 
+<div class="uk-section-about">
 <div id="about-slider" class="uk-section-about carousel uk-carousel-about slide" data-ride="carousel" data-interval="false" data-pause="false">
 	<!-- Wrapper for slides -->
 	<div class="carousel-inner">
@@ -67,4 +68,5 @@
 			</div>
     <?php } ?>
     </div>
+</div>
 </div>

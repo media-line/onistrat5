@@ -267,6 +267,26 @@ h4, h5, h6{
     left: 50%;
     margin-left: -90px;
 }
+.uk-close{
+	font-size: 46px;
+    line-height: 1;
+    font-weight: 300;
+    text-shadow: none;
+    color: #767676;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    opacity: 1;
+	display: inline-block;
+}
+.uk-close:hover{
+	opacity: 1;
+	color: #ff7676;
+}
+.modal-backdrop.in {
+    filter: alpha(opacity=90);
+    opacity: .9;
+}
 /* ========================================================================
    Cтили шапки / Header styles
 ========================================================================== */
@@ -1087,9 +1107,6 @@ ul.uk-calendar-pager li{
     width: 11%;
     text-align: center;
 } 
-ul.uk-calendar-pager li > *{
-   /* display: none;*/
-} 
 ul.uk-calendar-pager li a{
     border: none;
     color: #747474;
@@ -1295,6 +1312,77 @@ a.uk-calendar-next:after{
     max-height: 80px;
     overflow: hidden;
 }
+.uk-events-modal-content{
+	background: transparent;
+	border: 1px solid #767676;
+	color: #fff;
+	border-radius: 0;
+	padding: 75px 65px;
+}
+.uk-events-modal-close{
+	color: #fff;
+}
+.uk-events-modal-close:hover{
+	color: #ff7676;
+}
+.uk-ev-mod-content-image img{
+	width: 100%;
+}
+.uk-ev-mod-content-title{
+	font-size: 30px;
+	line-height: 36px;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	margin: -7px 0 30px 0;
+}
+.uk-ev-mod-content-text{
+	font-size: 18px;
+	line-height: 24px;
+	font-weight: 300;
+	color: #767676;
+	min-height: 192px;
+}
+.uk-ev-mod-content-text p + p{
+	margin-top: 30px;
+}
+.uk-ev-mod-content-button,
+.uk-ev-mod-content-button:focus{
+	background: #3ec52b;
+	font-size: 18px;
+	line-height: 60px;
+	font-weight: 300;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	padding: 0 20px;
+	text-align: center;
+	margin-top: 40px;
+	display: inline-block;
+	width: 100%;
+	color: #fff;
+	border: 1px solid #3ec52b;
+	opacity: 1;
+}
+.uk-ev-mod-content-button:hover{
+	color: #3ec52b;
+	background: transparent;
+}
+.uk-ev-mod-content-button.uk-hidden{
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.5s ease;
+}
+.uk-ev-mod-content-price{
+	font-size: 30px;
+	line-height: 36px;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	margin-top: 50px;
+}
+.uk-event-form{
+	display: none;
+}
 /* ========================================================================
    Медиа запросы / Media querys
 ========================================================================== */
@@ -1318,7 +1406,11 @@ a.uk-calendar-next:after{
     .uk-sm-width-55{
         width: 55%;
     }
-}
+	.modal-dialog {
+		width: 100%;
+		max-width: 1260px;
+		margin: 200px auto;
+	}
 @media (min-width: 992px){    
     .uk-navbar-collapse.collapse {
         display: block!important;

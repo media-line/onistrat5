@@ -22,7 +22,7 @@
 <?php 
     //количество месяцев в году
     define('NUM_OF_MONTH', 12);
-    //количество выводимых месяцев от центрального, формула 3+1+3 итого 9 месяцев
+    //количество выводимых месяцев от центрального, формула 3+1 центральный+3 итого 7 месяцев
     define('NUM_OF_CENTER', 3);
     
     //Получение текущих значений даты
@@ -33,8 +33,6 @@
     
     //Получение текущих значений url
     $requestUrl = base_path().request_path();
-    //$queryParams = drupal_get_query_parameters();
-    $currentUrl = $requestUrl.'?mini=' . $currentYear . '-' . $currentMonth;
     $currentCalendarPage = $currentYear . '-' . $currentMonth;
     $queryParams = drupal_get_query_parameters();
     if(isset($queryParams['mini'])){
@@ -48,7 +46,7 @@
         $calendarMonth = intval($currentMonth);
     }
     
-    //составление списка месяцев на прошлый, текущий и следующий года
+    //составление списка месяцев
     $monthArray = array(
         1 => array(
             'number' => '01', 
@@ -99,6 +97,7 @@
             'name' => t('December')
         )
     );
+	
     //Получаем начало и конец относительно выбраного месяца
     $startNumber = $calendarMonth - NUM_OF_CENTER;
     $endNumber = $calendarMonth + NUM_OF_CENTER;
@@ -114,19 +113,14 @@
     if($offset >= $offsetStart){
         $offsetStartFlag = true;
         $offsetStartMonths = NUM_OF_MONTH + ($calendarMonth - NUM_OF_CENTER);
-        /*for($i = $offsetStartMonths; $i <= NUM_OF_MONTH; $i++){
-            dpr($monthArray[$i]['name']);
-        } */
     } 
     
     //если выход за пределы массива в вконце
     if($offset <= $offsetEnd){
         $offsetEndFlag = true;
         $offsetEndMonths = ($calendarMonth + NUM_OF_CENTER) - NUM_OF_MONTH;
-        /*for($i = 1; $i <= $offsetEndMonths; $i++){
-            dpr($monthArray[$i]['name']);
-        } */
     }
+	
     //Формирование ссылок вперед и назад
     if ($calendarMonth == NUM_OF_MONTH){
         $nextLink = $requestUrl.'?mini=' . ($calendarYear + 1) . '-01';

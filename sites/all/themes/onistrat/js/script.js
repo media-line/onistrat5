@@ -83,6 +83,13 @@ jQuery(document).ready(function(){
         }
 	    return false; 
     });
+	
+	//Эффекты формы в модальном окне на странице мероприятий (events)
+	jQuery('.uk-ev-mod-content-button').click( function(){
+		jQuery(this).addClass('uk-hidden');
+		jQuery(this).closest('.uk-events-modal-content').find('.uk-event-form').slideDown(500);
+		return false; 
+    });
 });
 
 function resizeAboutImages(){
