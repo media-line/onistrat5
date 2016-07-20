@@ -1,3 +1,14 @@
 /* ========================================================================
    Переопределяете свои стили здесь / Override your styles here
 ========================================================================== */
+.coach-wrapper{
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 26px;
+    color: #fff;
+    background: #000;
+    padding: 70px 0;
+}
+.coach-wrapper p + p{
+    margin-top: 35px;
+}
