@@ -204,9 +204,6 @@
 	</div>
 
 	<?php 
-       // echo $site_email = variable_get('site_mail', '');
-        //dsm($_POST['SHOPORDERNUMBER']);
-        
         
 		//Открытие модального окна после возврата с платежки
 		if(isset($queryParams['modal'])){

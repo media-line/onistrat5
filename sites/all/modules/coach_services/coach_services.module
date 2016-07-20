@@ -1,0 +1,107 @@
+<?php
+/**
+ * Implements hook_menu().
+ * 
+ */
+function coach_services_menu() {
+  $items = array();
+
+  $items['admin/config/content/coach_services'] = array(
+    'title' => 'Личный коучинг',
+    'description' => 'Настройки блоков для записи на коучинг',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('coach_services_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+/**
+ * Page callback: Current posts settings
+ *
+ * @see current_posts_menu()
+ */
+function coach_services_form($form, &$form_state) {
+    $form['first_service_block'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Text of first block'),
+        '#default_value' => variable_get('first_service_block', ''),
+        '#rows' => 6,
+        '#description' => t(''),
+    );
+    
+    $form['second_service_block'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Text of second block'),
+        '#default_value' => variable_get('second_service_block', ''),
+        '#rows' => 6,
+        '#description' => t(''),
+    );
+    
+    $form['third_service_block'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Text of second block'),
+        '#default_value' => variable_get('third_service_block', ''),
+        '#rows' => 6,
+        '#description' => t(''),
+    );
+
+    return system_settings_form($form);
+}
+
+/**
+ * Implement hook_theme().
+ */
+function coach_services_theme() {
+    
+    echo 'yes2'; die;
+    
+    //$module_path = drupal_get_path('module', 'coach_services');
+
+	return array(
+		'coach_block'   => array(
+           // 'path' => $module_path . '/theme',
+			'variables' => array(
+				'view' => NULL
+			),
+			'template'  => 'coach-services',
+		)
+	);
+}
+
+/**
+ *  Implements hook_block_info().
+ */
+function coach_services_block_info(){
+    //Определяем имя для блока
+    $blockInfo['coach_services_block'] = array(
+        'info' => t('Coach services block'),
+        'cache' => DRUPAL_CACHE_PER_ROLE
+    );
+    
+    return $blockInfo;
+}
+
+/**
+ * Implement hook_block_view().
+ */
+function coach_services_block_view($delta = '') {
+    
+    //Определяем содежимое блока
+    if($delta == 'coach_services_block') {
+        //
+        $view = variable_get('first_service_block', '');
+       // $view[] = variable_get('second_service_block', '');
+       // $view[] = variable_get('third_service_block', '');
+        $content = theme('coach_block', array('view' => $view));
+        $block['subject'] = t('Coach services blocks');
+        $block['content'] = $content;
+        return $block;
+        
+        //$output['subject'] = 'My test subject';
+        //$output['content'] = theme('coach_services', array('block' => 'test'));
+    }
+    //return $output;
+} 
+?>

@@ -95,7 +95,7 @@
         
         <div class="uk-header-image-caption uk-text-uppercase">
             <?php if ($title != ''){ ?>
-                <div class="uk-header-image-caption-title"> <?php echo $title; ?></div>
+                <h1 class="uk-header-image-caption-title"> <?php echo $title; ?></h1>
             <?php } ?>
             <a href="#" onclick="history.back()">Вернуться назад</a>
         </div>
