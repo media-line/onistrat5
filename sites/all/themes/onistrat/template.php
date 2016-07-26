@@ -137,6 +137,14 @@ function onistrat_preprocess_block(&$variables) {
     $variables['title_attributes_array']['class'][] = 'element-invisible';
   }
 }
+/**
+ * Override or insert variables into the block template.
+ */
+function onistrat_preprocess_views_view_unformatted(&$variables) {
+    // In the header region visually hide block titles.
+    $variables['test'] = 'test value';
+   // dpr($variables);
+}
 
 /**
  * Implements theme_menu_tree().

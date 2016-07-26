@@ -192,40 +192,46 @@
     
     //Отправка почты
     if(isset($queryParams['pay_status']) && ($queryParams['pay_status'] == 'success')){
-        $siteEmail = variable_get('site_mail', '');
-        $name = htmlspecialchars($queryParams['name']);
-        $lastName = htmlspecialchars($queryParams['last_name']);
-        $email = htmlspecialchars($queryParams['email']);
-        $subject = htmlspecialchars($queryParams['subject']);
-        $eventDate = htmlspecialchars($queryParams['date']);
-        $headers = 'From: admin <' . $siteEmail . ">\r\n";
-        $headers .= "Content-type: text/html; charset=\"utf-8\"";
-        
-        $body = 'Мерприятие - ' . $subject . '<br>';
-        $body .= 'Дата проведения - ' . $eventDate . '<br><br>';
-        $body .= '<strong> Имя: </strong>'. $name .'<br>';
-        $body .= '<strong> Фамилия: </strong>'. $lastName .'<br>';
-        $body .= '<strong> Email: </strong>'. $email .'<br>';
+        if(isset($_POST['SHOPORDERNUMBER'])){
+            $siteEmail = variable_get('site_mail', '');
+            $name = htmlspecialchars($queryParams['name']);
+            $lastName = htmlspecialchars($queryParams['last_name']);
+            $email = htmlspecialchars($queryParams['email']);
+            $subject = htmlspecialchars($queryParams['subject']);
+            $eventDate = htmlspecialchars($queryParams['date']);
+            $headers = 'From: admin <' . $siteEmail . ">\r\n";
+            $headers .= "Content-type: text/html; charset=\"utf-8\"";
             
-        if(mail($siteEmail, 'Новая заявка на мероприятие с сайта onistrat.com', $body, $headers)){}
+            $body = 'Мерприятие - ' . $subject . '<br>';
+            $body .= 'Дата проведения - ' . $eventDate . '<br><br>';
+            $body .= '<strong> Имя: </strong>'. $name .'<br>';
+            $body .= '<strong> Фамилия: </strong>'. $lastName .'<br>';
+            $body .= '<strong> Email: </strong>'. $email .'<br>';
+                
+            if(mail($siteEmail, 'Новая заявка на мероприятие с сайта onistrat.com', $body, $headers)){}
+                
+            $userBody = 'Здравствуйте.<br>';
+            $userBody .= 'Вы зарегистрировались на мероприятие "'.$subject . '", ';
+            $userBody .= 'которое сотоится ' . trim($eventDate) . '.';
+                
+            if(mail($siteEmail, 'Вы зарегистрировались на '. $subject, $userBody, $headers)){}
             
-        $userBody = 'Здравствуйте.<br>';
-        $userBody .= 'Вы зарегистрировались на мероприятие "'.$subject . '", ';
-        $userBody .= 'которое сотоится ' . trim($eventDate) . '.';
+            //редирект на страницу без параметров формы
+            global $base_url; 
             
-        if(mail($siteEmail, 'Вы зарегистрировались на '. $subject, $userBody, $headers)){}
-        
-        //редирект на страницу без параметров формы
-        global $base_url; 
-        
-        $removeParams = array('name','lastname'); //ненужные параметры
-        foreach($queryParams as $k => $params){
-            //dpr($params);
+            $removeParams = array('subject', 'date', 'name', 'last_name', 'email'); //ненужные параметры
+            $redirectParams = '/?';
+            foreach($queryParams as $k => $param){
+                if (!in_array($k, $removeParams)){
+                    $redirectParams .= $k . '=' . $param . '&';
+                }
+            }
+            $redirectParams = substr($redirectParams, 0 , -1);
+           // dsm($base_url.$requestUrl.$redirectParams);
+            header('Location: '.$base_url.$requestUrl.$redirectParams);
         }
-        //header('Location: '.$base_url.$requestUrl);
-        
     } else {    
-        if($_POST && ($_POST['check'] == '')){
+        if((!isset($queryParams['pay_status'])) && ($_POST) && ($_POST['check'] == '')){
             $siteEmail = variable_get('site_mail', '');
             $name = htmlspecialchars($_POST['name']);
             $lastName = htmlspecialchars($_POST['last_name']);
@@ -248,12 +254,17 @@
             $userBody .= 'Вы зарегистрировались на мероприятие "'.$subject . '", ';
             $userBody .= 'которое сотоится ' . trim($eventDate) . '.';
             
-            if(mail($siteEmail, 'Вы зарегистрировались на '. $subject, $userBody, $headers)){}
+            if(mail($siteEmail, 'Вы зарегистрировались на '. $subject, $userBody, $headers)){
+                if((isset($queryParams['registration'])) && ($queryParams['registration'] == 'success')){
+                    //Сообщение о регистрации
+                    echo '<script>';
+                    echo 'jQuery("#event-modal-' . $queryParams['modal'] . '").find(".uk-success-pay-message, .uk-failed-pay-message").hide();';
+                    echo 'jQuery("#event-modal-' . $queryParams['modal'] . '").find(".uk-' . $queryParams['registration'] .'-pay-message").fadeIn(300);';
+                    echo '</script>';
+                }
+            }
+            
         }
     }
     
-    //Добавление пользователя в базу
-   /* if($_POST &&  ($_POST['check'] == '') && ($_POST['form_action'] != '')){
-        dsm($_POST);
-    }*/
 ?>

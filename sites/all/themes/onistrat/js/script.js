@@ -87,8 +87,28 @@ jQuery(document).ready(function(){
 	//Эффекты формы в модальном окне на странице мероприятий (events)
 	jQuery('.uk-ev-mod-content-button').click( function(){
 		jQuery(this).addClass('uk-disable');
-		jQuery(this).closest('.uk-events-modal-content').find('.uk-event-form').slideDown(500);
+		jQuery(this).closest('.uk-black-modal-content').find('.uk-event-form').slideDown(500);
 		return false; 
+    });
+    
+    //Правка высоты текста модальном окне на странице мероприятий (events)
+    jQuery('.uk-black-modal-content').each( function(){
+        var imgHeight = jQuery(this).find('.uk-ev-mod-content-image img').outerHeight();
+        //высота текстового блока, начальное значение любое больше 0
+        var textHeight = 100;
+        //максимальная высота картинки
+        var maxHeight = 300;
+        //коэфициэнт поправки
+        var fixHeight = 58;
+        
+        //если высота картинки больше чем задано в стилях
+        if(imgHeight > maxHeight){
+            textHeight = maxHeight - fixHeight;
+            jQuery(this).find('.uk-ev-mod-content-text').css({'min-height': textHeight + 'px'});
+        } else {
+            textHeight = imgHeight - fixHeight;
+            jQuery(this).find('.uk-ev-mod-content-text').css({'min-height': textHeight + 'px'});
+        }
     });
     
     //Функция обработки формы платных мероприятий
@@ -102,12 +122,30 @@ jQuery(document).ready(function(){
         var subject = encodeURIComponent(jQuery(this).closest('.uk-event-form').find('.uk-subject').val());
         successUrl = successUrl + '&date=' + date + '&subject=' + subject + '&name=' + name + '&last_name=' + lastName + '&email=' + email;
         failedUrl = failedUrl + '&date=' + date + '&subject=' + subject + '&name=' + name + '&last_name=' + lastName + '&email=' + email;
-        alert(successUrl);
         
-        var successUrl = jQuery(this).closest('.uk-event-form').find('.uk-success-url').val(successUrl);
-        var failedUrl = jQuery(this).closest('.uk-event-form').find('.uk-failed-url').val(failedUrl);
+        jQuery(this).closest('.uk-event-form').find('.uk-success-url').val(successUrl);
+        jQuery(this).closest('.uk-event-form').find('.uk-failed-url').val(failedUrl);
         
         jQuery(this).closest('.uk-event-form').submit();
+        
+        return false;
+    });
+    
+    //Функция обработки модальных форм для платежной системы
+    jQuery('.uk-mod-pay-button').click(function(){ 
+        var successUrl = jQuery(this).closest('.uk-modal-form').find('.uk-success-url').val();
+        var failedUrl = jQuery(this).closest('.uk-modal-form').find('.uk-failed-url').val();
+        var name = encodeURIComponent(jQuery(this).closest('.uk-modal-form').find('.uk-name').val());
+        var phone = encodeURIComponent(jQuery(this).closest('.uk-modal-form').find('.uk-phone').val());
+        var email = encodeURIComponent(jQuery(this).closest('.uk-modal-form').find('.uk-email').val());
+        var subject = encodeURIComponent(jQuery(this).closest('.uk-modal-form').find('.uk-subject').val());
+        successUrl = successUrl + '&subject=' + subject + '&name=' + name + '&phone=' + phone + '&email=' + email;
+        failedUrl = failedUrl + '&subject=' + subject + '&name=' + name + '&phone=' + phone + '&email=' + email;
+        
+        jQuery(this).closest('.uk-modal-form').find('.uk-success-url').val(successUrl);
+        jQuery(this).closest('.uk-modal-form').find('.uk-failed-url').val(failedUrl);
+
+        jQuery(this).closest('.uk-modal-form').submit();
         
         return false;
     });

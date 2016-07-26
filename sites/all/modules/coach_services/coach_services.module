@@ -55,7 +55,6 @@ function coach_services_form($form, &$form_state) {
  */
 function coach_services_theme() {
     
-    echo 'yes2'; die;
     
     //$module_path = drupal_get_path('module', 'coach_services');
 

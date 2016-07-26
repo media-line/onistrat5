@@ -1,6 +1,6 @@
-/* ========================================================================
+/* ====================================================================
    Шрифты / Fonts
-========================================================================== */
+==================================================================== */
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&subset=cyrillic';
 @font-face {
     font-family: 'iconfont';
@@ -25,6 +25,12 @@
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+.icon-musica-searcher:before {
+  content: "\e90a";
+}
+.icon-favorite:before {
+    content: "\e909";
 }
 .icon-right-arrow:before {
     content: "\e907";
@@ -709,9 +715,9 @@ div.uk-main-category-block:hover .uk-main-category-content{
     line-height: 36px;
     font-weight: 300;
 }
-/* ========================================================================
+/* ====================================================================
    Секция "О себе" / About section
-========================================================================== */
+==================================================================== */
 .uk-section-about{
 	background: #f3f3f4;
     padding-top: 55px;
@@ -814,19 +820,34 @@ div.uk-main-category-block:hover .uk-main-category-content{
     margin-bottom: 35px;
     overflow: hidden;
     font-size: 0;
+    position: relative;
 }
 .uk-catalog-teaser-image img{
     max-width: 95%;
     max-height: 100%;
     transition: all 0.2s ease;
 }
-.uk-catalog-teaser:hover .uk-catalog-teaser-image img{
+.uk-catalog-teaser-image .uk-img-block{
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    position: absolute;
+    top: 25px;
+    bottom: 25px;
+    left: 40px;
+    right: 40px;
+    transition: all 0.2s ease;
+}
+.uk-catalog-teaser:hover .uk-catalog-teaser-image img,
+.uk-catalog-teaser:hover .uk-catalog-teaser-image .uk-img-block{
     transform: scale(1.1);
     transition: all 0.2s ease;
 }
 .uk-catalog-teaser-title{
     display: inline;
     position: relative;
+    letter-spacing: 2px;
 }
 .uk-catalog-teaser-title:after{
     content: "";
@@ -845,9 +866,22 @@ div.uk-main-category-block:hover .uk-main-category-content{
 .uk-catalog-teaser-price{
     color: #7c7c7c;
 }
-/* ========================================================================
+/* ==================================================================
+   Стили каталога на внутренних / Catalog inner styles
+================================================================== */
+.uk-product-teaser-img{
+    
+}
+.uk-product-teaser-img a:after{
+    border: none;
+    transform: none;
+}
+.uk-product-teaser-img img{
+    width: 100%;
+}
+/* ==================================================================
    Стили футера / Footer styles
-========================================================================== */
+================================================================== */
 .uk-footer{
     background: #1c1a24;
     padding: 80px 0 120px;
@@ -992,6 +1026,7 @@ div.uk-main-category-block:hover .uk-main-category-content{
 ========================================================================== */
 .uk-header-image{
 	position: relative;
+    background: #1c1a24;
 }
 .uk-header-image img{
 	width: 100%;
@@ -1341,7 +1376,7 @@ a.uk-calendar-next:after{
     max-height: 80px;
     overflow: hidden;
 }
-.uk-events-modal-content{
+.uk-black-modal-content{
 	background: transparent;
 	border: 1px solid #767676;
 	color: #fff;
@@ -1356,6 +1391,7 @@ a.uk-calendar-next:after{
 }
 .uk-ev-mod-content-image img{
 	width: 100%;
+    max-height: 300px;
 }
 .uk-ev-mod-content-title{
 	font-size: 30px;
@@ -1377,8 +1413,10 @@ a.uk-calendar-next:after{
 }
 .uk-ev-mod-content-button,
 .uk-ev-mod-pay-button,
+.uk-mod-pay-button,
 .uk-ev-mod-content-button:focus,
-.uk-ev-mod-pay-button:focus{
+.uk-ev-mod-pay-button:focus,
+.uk-mod-pay-button:focus{
 	background: #3ec52b;
 	font-size: 18px;
 	line-height: 60px;
@@ -1395,7 +1433,8 @@ a.uk-calendar-next:after{
 	opacity: 1;
 }
 .uk-ev-mod-content-button:hover,
-.uk-ev-mod-pay-button:hover{
+.uk-ev-mod-pay-button:hover,
+.uk-mod-pay-button:hover{
 	color: #3ec52b;
 	background: transparent;
 }
@@ -1414,9 +1453,13 @@ a.uk-calendar-next:after{
 }
 .uk-event-form{
 	display: none;
+}
+.uk-event-form,
+.uk-modal-form{
     margin-top: 80px;
 }
-.uk-event-form input{
+.uk-event-form input,
+.uk-modal-form input{
 	width: 100%;
     height: 50px;
     background: transparent;
@@ -1427,24 +1470,29 @@ a.uk-calendar-next:after{
     letter-spacing: 3px;
     text-transform: uppercase;
 }
-.uk-event-form ::-webkit-input-placeholder {
+.uk-event-form ::-webkit-input-placeholder,
+.uk-modal-form ::-webkit-input-placeholder {
     color: #aaa;
 }
-.uk-event-form ::-moz-placeholder {
+.uk-event-form ::-moz-placeholder,
+.uk-modal-form ::-moz-placeholder {
     color: #aaa;
 }
-.uk-event-form :-moz-placeholder {
+.uk-event-form :-moz-placeholder,
+.uk-modal-form :-moz-placeholder {
     color: #aaa;
 }
-.uk-event-form :-ms-input-placeholder      {
+.uk-event-form :-ms-input-placeholder,
+.uk-modal-form :-ms-input-placeholder {
     color: #aaa;
 }
-.uk-ev-mod-pay-button{
+.uk-ev-mod-pay-button,
+.uk-mod-pay-button{
     max-width: 260px;
     transition: all 0.2s ease;
 }
-.uk-ev-mod-pay-button:hover{
-    
+.uk-ev-mod-pay-button:hover,
+.uk-mod-pay-button:hover{
     transition: all 0.2s ease;
 }
 .uk-success-pay-message,
@@ -1463,9 +1511,93 @@ a.uk-calendar-next:after{
 .uk-failed-pay-message{
     color: #ff7676;
 }
-/* ========================================================================
+/* ================================================================
+   Стили страницы "Личный кучинг" / Personal coaching styles
+================================================================ */
+.block-views-coach-blocks-block .block-title{
+    background: #000;
+    color: #fff;
+    font-size: 40px;
+    line-height: 56px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center; 
+}
+.uk-coach-blocks{
+    background: #000;
+    color: #fff;
+    padding: 80px 0 120px;
+    position: relative;
+}
+.uk-coach-block-stars{
+    text-align: center;
+    min-height: 20px;
+}
+.uk-coach-block-stars-star{
+    font-size: 15px;
+    line-height: 1;
+}
+.uk-coach-block-stars-star + .uk-coach-block-stars-star {
+    margin-left: 5px;
+}
+.uk-coach-block-title{
+    background: #ffe24f;
+    font-size: 25px;
+    line-height: 80px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center; 
+    color: #000;
+    margin-top: 25px;
+}
+.uk-coach-block-price{
+    font-size: 62px;
+    line-height: 80px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 40px 0;
+}
+.uk-coach-block-text{
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 300;
+    padding: 0 35px;
+    text-align: center;
+}
+.uk-coach-block-btn{
+    padding: 0 25px;
+    margin-top: 35px;
+}
+.uk-coach-block-btn a,
+.uk-coach-block-btn a:focus{
+    font-size: 16px;
+    line-height: 60px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    display: block;
+    background: #ffe24f;
+    color: #000;
+    text-transform: uppercase;
+    border: 1px solid #ffe24f;
+}
+.uk-coach-block-btn a:hover{
+    background: transparent;
+    color: #ffe24f;
+}
+.uk-coach-block-modal-title{
+    background: #3ec52b;
+    text-align: center;
+    font-size: 25px;
+    line-height: 70px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 15px;
+}
+/* ================================================================
    Медиа запросы / Media querys
-========================================================================== */
+================================================================ */
 @media (min-width: 768px){
 	.carousel-indicators {
 		bottom: 95px;

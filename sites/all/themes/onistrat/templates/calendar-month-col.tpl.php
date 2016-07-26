@@ -103,7 +103,7 @@
 					
 				//получаем src картинки
 				$doc = new DOMDocument();
-				$doc->loadHTML($item['item']->rendered_fields['field_image']);
+				$doc->loadHTML($image);
 				$xpath = new DOMXPath($doc);
 				$imageSrc = $xpath->evaluate("string(//img/@src)");
 					
@@ -126,7 +126,7 @@
 		
 		?>
 		<div class="modal-dialog">
-			<div class="modal-content uk-events-modal-content container-fluid">
+			<div class="modal-content uk-black-modal-content container-fluid">
 				<a type="button" class="close uk-close uk-events-modal-close uk-bordered-remove" data-dismiss="modal" aria-hidden="true">&times;</a>
 				
 				<div class="row">
